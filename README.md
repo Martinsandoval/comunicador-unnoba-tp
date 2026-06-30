@@ -2,6 +2,10 @@
 
 A Java EE web application that helps people with motor disabilities communicate by selecting images representing everyday objects.
 
+## Demo
+
+https://github.com/user-attachments/assets/ccacc599-6a4d-402d-9b4c-e858c49599d1
+
 ## Technology Stack
 
 - **Java EE 7** (EJB 3, JPA 2.1, JSF 2.2)
@@ -157,10 +161,6 @@ comunicadorMartin/
 └── setup/
     └── glassfish-resources.xml  # JDBC datasource definition
 ```
-
-## Demo
-
-https://github.com/user-attachments/assets/cc84ddf8-6d3e-45d4-8606-8e1e3fac24e0
 
 
 ---

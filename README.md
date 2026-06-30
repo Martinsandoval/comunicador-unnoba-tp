@@ -2,7 +2,7 @@
 
 A Java EE web application that helps people with motor disabilities communicate by selecting images representing everyday objects.
 
-## Demo
+## Demo (sound on 🗣️)
 
 https://github.com/user-attachments/assets/bb31e303-5983-4836-af99-19ac14298a6e
 

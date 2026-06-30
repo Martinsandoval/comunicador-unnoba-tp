@@ -158,6 +158,11 @@ comunicadorMartin/
     └── glassfish-resources.xml  # JDBC datasource definition
 ```
 
+## Demo
+
+https://github.com/user-attachments/assets/cc84ddf8-6d3e-45d4-8606-8e1e3fac24e0
+
+
 ---
 
 ## Notes

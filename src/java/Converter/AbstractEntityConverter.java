@@ -46,7 +46,8 @@ public abstract class AbstractEntityConverter<T> implements Converter{
 
   @Override
   public String getAsString(FacesContext context, UIComponent component, Object value) {
+    if (value == null) return "0";
     Integer id = ((AbstractEntity)value).getId();
-    return id==null?"0":id.toString();
+    return id == null ? "0" : id.toString();
   }
 }

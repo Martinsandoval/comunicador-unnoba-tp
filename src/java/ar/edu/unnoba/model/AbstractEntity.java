@@ -4,19 +4,18 @@
  */
 package ar.edu.unnoba.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-/**
- *
- * @author Sandoval
- */
 @MappedSuperclass
 public abstract class AbstractEntity<T> {
    @Id
-   private int id;
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Integer id;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -27,17 +26,15 @@ public abstract class AbstractEntity<T> {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
-   public boolean equals(Object obj) {
-        final AbstractEntity<T> other = (AbstractEntity<T>)obj;
-        if (this.id == other.getId()){
-            return true;
-        }
-        return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || !(obj instanceof AbstractEntity)) return false;
+        final AbstractEntity<?> other = (AbstractEntity<?>) obj;
+        return this.id != null && this.id.equals(other.getId());
     }
-    
+
 }

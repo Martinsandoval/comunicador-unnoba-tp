@@ -1,67 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
-<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title><h:outputText value="#{bundle.title}"/></title>
         <h:outputStylesheet name="css.css" library="css"/>
         <h:outputStylesheet name="bootstrap.css" library="css"/>
-
-        <link rel="shortcut icon" href="#{request.contextPath}/resources/imagenes/comunicador.png" type="image/x-icon" />
-        
-        
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/imagenes/comunicador.png" type="image/x-icon"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </h:head>
 
     <h:body>
         <nav class="navbar navbar-inverse" role="navigation">
             <div class="container-fluid">
-
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Inicio</a></li>
-                        <li><a href="/comunicador/admin/tematicas/index.xhtml">Tematicas</a></li>
-                        <li><a href="/comunicador/admin/elementositeractivos/index.xhtml">Elementos Interactivos</a></li>
-
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Cerrar Sesion</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-        <h:form> 
-            <ul>
-                <p:button outcome="/admin/tematicas/index.xhtml" value="Ir a tematicas" icon="ui-icon-star" rendered="#{backingUsuario.username!=null}"/>
-                <p:button outcome="/admin/elementositeractivos/index.xhtml" value="Ir a elementos" icon="ui-icon-star" rendered="#{backingUsuario.username!=null}"/>
-                <p:separator/>
-                <div class="username">
-                    <li><h:outputText value="#{bundle.welcome}, #{backingUsuario.username}" rendered="#{backingUsuario.username!=null}"/></li>
-                    <li><h:commandButton class="submit" id="logout" value="#{bundle.logout}" action="#{backingUsuario.logout}" rendered="#{backingUsuario.username!=null}"/></li> 
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                 </div>
-            </ul>
-        </h:form>
-        <ui:insert name="content">
+                <div class="collapse navbar-collapse" id="navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#{request.contextPath}/welcome.xhtml">Inicio</a></li>
+                        <li><a href="#{request.contextPath}/comunicador.xhtml">Comunicador</a></li>
+                        <li><a href="#{request.contextPath}/admin/tematicas/index.xhtml">Tematicas</a></li>
+                        <li><a href="#{request.contextPath}/admin/elementositeractivos/index.xhtml">Elementos Interactivos</a></li>
+                    </ul>
+                    <h:form styleClass="navbar-form navbar-right" rendered="#{backingUsuario.username != null}">
+                        <span class="navbar-text" style="margin-right: 10px; color: #9d9d9d;">
+                            <h:outputText value="#{bundle.welcome}, #{backingUsuario.username}"/>
+                        </span>
+                        <h:commandButton styleClass="btn btn-default btn-sm"
+                                         value="#{bundle.logout}"
+                                         action="#{backingUsuario.logout}"/>
+                    </h:form>
+                </div>
+            </div>
+        </nav>
 
-        </ui:insert>
+        <ui:insert name="content"/>
     </h:body>
-
 </html>

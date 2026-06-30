@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +26,8 @@ import javax.persistence.Table;
 @DiscriminatorColumn(name="tipo", discriminatorType=DiscriminatorType.STRING)
 @NamedQueries({
 @NamedQuery(name = "elementos.all", query = "Select c from ElementoInteractivo c order by c.nombre"),
-@NamedQuery(name = "compuesto2.all", query = "Select c from ElementoInteractivo c where c.tipo='compuesto' order by c.nombre")})
+@NamedQuery(name = "compuesto2.all", query = "Select c from ElementoInteractivo c where c.tipo='compuesto' order by c.nombre"),
+@NamedQuery(name = "elementos.porTematica", query = "Select c from ElementoInteractivo c where c.tematica.id = :tematicaId order by c.nombre")})
 
 @Entity
 @Table(name="elementos_iteractivos")

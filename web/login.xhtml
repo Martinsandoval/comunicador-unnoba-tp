@@ -18,25 +18,23 @@
                             <button type="button" class="close" data-dismiss="modal">X</button>
                             <h4 class="modal-title" id="myModalLabel">#{bundle.head}</h4>
                         </div>
+                        <h:form>
                         <div class="modal-body">
-                            <h:form>
                                 <i><br><h:outputText value="#{bundle.login}" style="font-weight:bold"/></br></i>
-                                <br></br> 
+                                <br></br>
                                 <br> <h:outputLabel for="usuario" style="font-weight:bold" value="#{bundle.user}"/> </br>
                                 <br><h:inputText id="usuario" required="true" value="#{backingUsuario.username}"/></br>
 
-                                <br><h:outputLabel for="password" style="font-weight:bold" value="#{bundle.password}"/></br> 
+                                <br><h:outputLabel for="password" style="font-weight:bold" value="#{bundle.password}"/></br>
                                 <br><h:inputSecret id="password"  required="true" value="#{backingUsuario.password}"/></br>
                                 <br></br>
                                 <br/>
-                                
-                                
-                                <h:messages/> 
-                            </h:form> 
+                                <h:messages/>
                         </div>
                         <div class="modal-footer">
                            <h:commandButton class="btn btn-primary" id="ingresar" value="#{bundle.ingresar}" action="#{backingUsuario.login()}"/>
                         </div>
+                        </h:form>
                     </div>
                 </div>
             </div>

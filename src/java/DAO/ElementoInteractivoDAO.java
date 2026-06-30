@@ -36,4 +36,10 @@ public List findAll(){
       return query.getResultList();
     }
 
+public List<ElementoInteractivo> findByTematicaId(Integer tematicaId) {
+    return em.createNamedQuery("elementos.porTematica", ElementoInteractivo.class)
+             .setParameter("tematicaId", tematicaId)
+             .getResultList();
+}
+
 }

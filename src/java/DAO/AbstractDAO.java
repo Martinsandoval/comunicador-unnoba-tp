@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  */
 
 public abstract class AbstractDAO<T> {
-  @PersistenceContext(name="comunicadorPU")  
+  @PersistenceContext(unitName="comunicadorPU")
   protected EntityManager em;
   private Class<T> entityClass;
 

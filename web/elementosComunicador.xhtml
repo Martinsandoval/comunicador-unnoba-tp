@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="tematicaId" value="#{backingElementosComunicador.tematicaId}"/>
+        <f:event type="preRenderView" listener="#{backingElementosComunicador.init}"/>
+    </f:metadata>
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
+
+            <style>
+                .comunicador-wrapper {
+                    max-width: 1080px;
+                    margin: 36px auto;
+                    padding: 0 24px;
+                }
+
+                .comunicador-heading {
+                    text-align: center;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #444;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.3px;
+                }
+
+                .comunicador-subheading {
+                    text-align: center;
+                    font-size: 13px;
+                    color: #999;
+                    margin-bottom: 28px;
+                }
+
+                .back-btn {
+                    display: inline-block;
+                    margin-bottom: 20px;
+                    color: #555;
+                    font-size: 13px;
+                    text-decoration: none;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                    padding: 4px 12px;
+                }
+                .back-btn:hover { background: #f5f5f5; color: #333; text-decoration: none; }
+
+                .tematica-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 22px;
+                }
+
+                .tematica-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+                    text-align: center;
+                    cursor: pointer;
+                    border: 3px solid transparent;
+                    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+                    overflow: hidden;
+                    outline: none;
+                    user-select: none;
+                }
+
+                .tematica-card:hover {
+                    box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+                }
+
+                .tematica-card.scanning {
+                    border-color: #2e7bd6;
+                    box-shadow: 0 0 0 4px rgba(46,123,214,0.30), 0 6px 22px rgba(46,123,214,0.20);
+                    transform: scale(1.05);
+                }
+
+                .tematica-card.selected {
+                    border-color: #27ae60;
+                    box-shadow: 0 0 0 4px rgba(39,174,96,0.35), 0 6px 22px rgba(39,174,96,0.20);
+                    transform: scale(1.05);
+                }
+
+                .card-image-wrapper {
+                    width: 100%;
+                    height: 148px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                }
+
+                .card-image-wrapper img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .card-placeholder {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 36px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-transform: uppercase;
+                    flex-shrink: 0;
+                }
+
+                .card-label {
+                    padding: 14px 10px 16px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #2c2c2c;
+                    line-height: 1.3;
+                }
+
+                .empty-state {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #aaa;
+                    font-size: 16px;
+                }
+
+                .scan-hint {
+                    text-align: center;
+                    margin-top: 30px;
+                    color: #888;
+                    font-size: 13px;
+                }
+
+                .scan-hint kbd {
+                    background: #f0f0f0;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 2px 8px;
+                    font-size: 12px;
+                    font-family: inherit;
+                    color: #444;
+                }
+
+                .scan-paused-badge {
+                    display: none;
+                    position: fixed;
+                    top: 72px;
+                    right: 20px;
+                    background: #e67e22;
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+            </style>
+
+            <div class="comunicador-wrapper">
+                <a class="back-btn" href="#{request.contextPath}/comunicador.xhtml">&#8592; Volver a Temáticas</a>
+
+                <div class="comunicador-heading">
+                    <h:outputText value="#{backingElementosComunicador.tematica.nombre}" rendered="#{backingElementosComunicador.tematica != null}"/>
+                </div>
+                <div class="comunicador-subheading">Seleccioná un elemento</div>
+
+                <h:panelGroup rendered="#{empty backingElementosComunicador.elementos}">
+                    <div class="empty-state">No hay elementos para esta temática.</div>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{not empty backingElementosComunicador.elementos}">
+                    <div class="tematica-grid" id="elementoGrid">
+                        <ui:repeat value="#{backingElementosComunicador.elementos}" var="e">
+                            <div class="tematica-card"
+                                 tabindex="0"
+                                 data-id="#{e.id}"
+                                 data-nombre="#{e.nombre}"
+                                 data-img="#{e.img_path}">
+                                <div class="card-image-wrapper">
+                                    <div class="card-placeholder"></div>
+                                </div>
+                                <div class="card-label">#{e.nombre}</div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+
+                    <div class="scan-hint">
+                        <kbd>Enter</kbd> seleccionar &#160;&#160;
+                        <kbd>Espacio</kbd> pausar/reanudar &#160;&#160;
+                        <kbd>←</kbd><kbd>→</kbd> navegar
+                    </div>
+                </h:panelGroup>
+            </div>
+
+            <div class="scan-paused-badge" id="pausedBadge">&#9208; Pausado</div>
+
+            <script type="text/javascript">
+            //<![CDATA[
+            (function () {
+                var grid = document.getElementById('elementoGrid');
+                if (!grid) return;
+
+                var SCAN_INTERVAL_MS = 2000;
+                var COLORS = [
+                    '#e74c3c','#3498db','#2ecc71','#f39c12',
+                    '#9b59b6','#1abc9c','#e67e22','#e91e63',
+                    '#16a085','#d35400','#2980b9','#8e44ad'
+                ];
+                var CTX = '#{request.contextPath}';
+
+                var cards   = Array.prototype.slice.call(grid.querySelectorAll('.tematica-card'));
+                var badge   = document.getElementById('pausedBadge');
+                var current = 0;
+                var paused  = false;
+                var timer   = null;
+
+                /* ── TTS ─────────────────────────────────────────────────── */
+                var femaleVoice = null;
+                var synth = window.speechSynthesis;
+
+                function pickFemaleVoice() {
+                    var voices = synth.getVoices();
+                    var femaleNames = ['paulina','monica','lucia','carmen','conchita','marisol','sabina'];
+                    femaleVoice = voices.find(function (v) {
+                        if (!v.lang.toLowerCase().startsWith('es')) return false;
+                        var n = v.name.toLowerCase();
+                        return femaleNames.some(function (h) { return n.indexOf(h) !== -1; });
+                    });
+                    if (!femaleVoice) {
+                        femaleVoice = voices.find(function (v) {
+                            return v.lang.toLowerCase().startsWith('es');
+                        });
+                    }
+                }
+
+                if (synth) {
+                    if (synth.getVoices().length) { pickFemaleVoice(); }
+                    synth.onvoiceschanged = pickFemaleVoice;
+                }
+
+                function speak(text) {
+                    if (!synth) return;
+                    synth.cancel();
+                    var utt = new SpeechSynthesisUtterance(text);
+                    utt.lang  = 'es-AR';
+                    utt.rate  = 0.92;
+                    utt.pitch = 1.15;
+                    if (femaleVoice) { utt.voice = femaleVoice; }
+                    synth.speak(utt);
+                }
+
+                /* ── Images / Placeholders ──────────────────────────────── */
+                cards.forEach(function (card, i) {
+                    var imgPath     = card.dataset.img;
+                    var nombre      = card.dataset.nombre || '?';
+                    var wrapper     = card.querySelector('.card-image-wrapper');
+                    var placeholder = card.querySelector('.card-placeholder');
+
+                    if (imgPath && imgPath !== 'null' && imgPath.trim().length > 0) {
+                        var src = /^https?:\/\//i.test(imgPath) ? imgPath : CTX + '/' + imgPath;
+                        var img = document.createElement('img');
+                        img.alt = nombre;
+                        img.src = src;
+                        img.onerror = function () {
+                            wrapper.removeChild(img);
+                            colorPlaceholder(placeholder, nombre, i);
+                        };
+                        wrapper.replaceChild(img, placeholder);
+                    } else {
+                        colorPlaceholder(placeholder, nombre, i);
+                    }
+                });
+
+                function colorPlaceholder(el, nombre, i) {
+                    el.style.background = COLORS[i % COLORS.length];
+                    el.textContent = nombre.charAt(0).toUpperCase();
+                }
+
+                /* ── Scanning ────────────────────────────────────────────── */
+                function setHighlight(index) {
+                    cards.forEach(function (c) { c.classList.remove('scanning'); });
+                    cards[index].classList.add('scanning');
+                    speak(cards[index].dataset.nombre);
+                }
+
+                function advance() {
+                    current = (current + 1) % cards.length;
+                    setHighlight(current);
+                }
+
+                function startTimer() { timer = setInterval(advance, SCAN_INTERVAL_MS); }
+
+                function stopTimer() { clearInterval(timer); timer = null; }
+
+                function setPaused(val) {
+                    paused = val;
+                    badge.style.display = paused ? 'block' : 'none';
+                    if (paused) { stopTimer(); synth && synth.cancel(); }
+                    else        { startTimer(); }
+                }
+
+                /* ── Selection ───────────────────────────────────────────── */
+                function selectCard(index) {
+                    stopTimer();
+                    cards.forEach(function (c) { c.classList.remove('scanning'); });
+                    cards[index].classList.add('selected');
+                    speak(cards[index].dataset.nombre);
+                }
+
+                /* ── Event listeners ─────────────────────────────────────── */
+                cards.forEach(function (card, i) {
+                    card.addEventListener('click', function () { selectCard(i); });
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    switch (e.key) {
+                        case 'Enter':
+                            selectCard(current);
+                            break;
+                        case ' ':
+                            e.preventDefault();
+                            setPaused(!paused);
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            stopTimer();
+                            current = (current + 1) % cards.length;
+                            setHighlight(current);
+                            if (!paused) { startTimer(); }
+                            break;
+                        case 'ArrowLeft':
+                            e.preventDefault();
+                            stopTimer();
+                            current = (current - 1 + cards.length) % cards.length;
+                            setHighlight(current);
+                            if (!paused) { startTimer(); }
+                            break;
+                    }
+                });
+
+                /* ── Init ────────────────────────────────────────────────── */
+                if (cards.length > 0) {
+                    setHighlight(0);
+                    startTimer();
+                }
+            })();
+            //]]>
+            </script>
+
+        </ui:define>
+    </ui:composition>
+</html>

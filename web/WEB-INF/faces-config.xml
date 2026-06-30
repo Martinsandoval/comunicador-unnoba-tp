@@ -12,8 +12,6 @@
         <resource-bundle>
             <base-name>bundle.bundle</base-name>
             <var>bundle</var>
-            <!--        <base-name>Bundle.bundle-eng</base-name>-->
-            <var>bundle</var>
         </resource-bundle>
     </application>
     <managed-bean>
@@ -27,6 +25,19 @@
         <phase-listener>ar.edu.unnoba.admin.backing.MyPhaseListener</phase-listener>
     </lifecycle>
     
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/welcome.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
     <navigation-rule>
         <from-view-id>/admin/tematicas/new.xhtml</from-view-id>
         <navigation-case>

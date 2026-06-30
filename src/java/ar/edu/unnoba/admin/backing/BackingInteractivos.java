@@ -11,12 +11,12 @@ import ar.edu.unnoba.model.InteractivoCompuesto;
 import ar.edu.unnoba.model.InteractivoFinal;
 import ar.edu.unnoba.model.Tematica;
 import java.util.List;
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.mail.Part;
+import javax.servlet.http.Part;
 
 /**
  *

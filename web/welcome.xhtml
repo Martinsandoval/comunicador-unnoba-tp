@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
-    <script src="resources/js/jquery-2.1.1.min.js"></script>
-    <script src="resources/js/jquery.js"></script>
+
     <ui:composition template="template.xhtml">
-       
-    <ui:define name="content">
-        <div class="container">
-          <div class="row">
-        <div class="span6">
-            <img id="img1" class="img-circle" style="text-align: center" src="resources/imagenes/comunicar4.png" width="450" height="386" alt="comunicador"/>
-
-            <img style="text-align: center" class="img-circle" src="resources/imagenes/comunicar3.png" width="450" height="386" alt="comunicador"/>
-
-        </div>
-             <div class="span6">
-            <h2>Bienvenido al comunicador</h2>
-            <p><b>
-               Esta aplicacion sirve para ayudar a aquellas personas con dificultades motrices a comunicarse, 
-               mediante la seleccion de imagenes que representan elementos de la vida cotidiana.
-            </b></p>
-        </div>
-        </div>
-        </div>
-   </ui:define>
+        <ui:define name="content">
+            <div class="container" style="margin-top: 40px;">
+                <div class="row">
+                    <div class="col-md-7 text-center">
+                        <img class="img-responsive" style="display: inline-block; width: 46%; margin: 4px;"
+                             src="#{request.contextPath}/resources/imagenes/comunicar4.png" alt="comunicador"/>
+                        <img class="img-responsive" style="display: inline-block; width: 46%; margin: 4px;"
+                             src="#{request.contextPath}/resources/imagenes/comunicar3.png" alt="comunicador"/>
+                    </div>
+                    <div class="col-md-5" style="padding-top: 40px;">
+                        <h2>Bienvenido al comunicador</h2>
+                        <p>
+                            Esta aplicacion sirve para ayudar a aquellas personas con dificultades motrices
+                            a comunicarse, mediante la seleccion de imagenes que representan elementos de la
+                            vida cotidiana.
+                        </p>
+                        <a href="#{request.contextPath}/comunicador.xhtml"
+                           class="btn btn-success btn-lg" style="margin-right: 8px;">Iniciar Comunicador</a>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
     </ui:composition>
 </html>

@@ -1,60 +1,279 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html id="html" xmlns="http://www.w3.org/1999/xhtml"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-      <ui:composition template="template.xhtml">
-          <ui:define name="content">
-               <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                Iniciar Sesion
-               </button>
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-            <!-- Modal -->
-            <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content modal-sm">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">X</button>
-                            <h4 class="modal-title" id="myModalLabel">#{bundle.head}</h4>
-                        </div>
-                        <h:form>
-                        <div class="modal-body">
-                                <i><br><h:outputText value="#{bundle.login}" style="font-weight:bold"/></br></i>
-                                <br></br>
-                                <br> <h:outputLabel for="usuario" style="font-weight:bold" value="#{bundle.user}"/> </br>
-                                <br><h:inputText id="usuario" required="true" value="#{backingUsuario.username}"/></br>
+    <h:head>
+        <title>Comunicador — Iniciar Sesión</title>
+        <h:outputStylesheet name="css/bootstrap.css" library="css"/>
+        <style>
+            *, *::before, *::after { box-sizing: border-box; }
 
-                                <br><h:outputLabel for="password" style="font-weight:bold" value="#{bundle.password}"/></br>
-                                <br><h:inputSecret id="password"  required="true" value="#{backingUsuario.password}"/></br>
-                                <br></br>
-                                <br/>
-                                <h:messages/>
-                        </div>
-                        <div class="modal-footer">
-                           <h:commandButton class="btn btn-primary" id="ingresar" value="#{bundle.ingresar}" action="#{backingUsuario.login()}"/>
-                        </div>
-                        </h:form>
-                    </div>
+            html, body {
+                height: 100%;
+                margin: 0;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+
+            .login-wrapper {
+                display: flex;
+                min-height: 100vh;
+            }
+
+            /* ── Left panel ─────────────────────────────────────────── */
+            .login-left {
+                flex: 1;
+                background: linear-gradient(150deg, #1a2d4e 0%, #1e5799 60%, #2980b9 100%);
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 60px 56px;
+            }
+
+            .login-left .app-logo {
+                width: 72px;
+                height: 72px;
+                margin-bottom: 28px;
+                border-radius: 16px;
+                background: rgba(255,255,255,0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            .login-left .app-logo img {
+                width: 52px;
+                height: 52px;
+                object-fit: contain;
+            }
+
+            .login-left h1 {
+                font-size: 34px;
+                font-weight: 700;
+                margin: 0 0 12px;
+                letter-spacing: -0.5px;
+            }
+
+            .login-left .tagline {
+                font-size: 16px;
+                color: rgba(255,255,255,0.75);
+                line-height: 1.6;
+                margin-bottom: 40px;
+                max-width: 420px;
+            }
+
+            .login-left .features {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .login-left .features li {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 18px;
+                font-size: 14px;
+                color: rgba(255,255,255,0.88);
+                line-height: 1.5;
+            }
+
+            .login-left .features li .icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                background: rgba(255,255,255,0.15);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+            }
+
+            .login-left .features li .feat-text strong {
+                display: block;
+                font-size: 14px;
+                font-weight: 600;
+                color: #fff;
+                margin-bottom: 2px;
+            }
+
+            /* ── Right panel ────────────────────────────────────────── */
+            .login-right {
+                width: 440px;
+                flex-shrink: 0;
+                background: #f7f8fa;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 60px 48px;
+            }
+
+            .login-right h2 {
+                font-size: 24px;
+                font-weight: 700;
+                color: #1a1a2e;
+                margin: 0 0 6px;
+            }
+
+            .login-right .login-sub {
+                font-size: 13px;
+                color: #888;
+                margin-bottom: 32px;
+            }
+
+            .login-right .form-group {
+                margin-bottom: 18px;
+            }
+
+            .login-right label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                color: #444;
+                margin-bottom: 6px;
+            }
+
+            .login-right .form-control {
+                width: 100%;
+                height: 44px;
+                padding: 10px 14px;
+                font-size: 14px;
+                border: 1px solid #dde1e7;
+                border-radius: 8px;
+                background: #fff;
+                color: #222;
+                transition: border-color 0.15s;
+                outline: none;
+            }
+
+            .login-right .form-control:focus {
+                border-color: #2980b9;
+                box-shadow: 0 0 0 3px rgba(41,128,185,0.15);
+            }
+
+            .btn-login {
+                width: 100%;
+                height: 44px;
+                background: #2980b9;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 8px;
+                transition: background 0.15s;
+            }
+
+            .btn-login:hover { background: #1e6fa0; }
+
+            .login-messages {
+                margin-bottom: 16px;
+            }
+
+            .login-alert {
+                list-style: none;
+                padding: 10px 14px;
+                margin: 0;
+                border-radius: 8px;
+                font-size: 13px;
+                background: #fdecea;
+                color: #c0392b;
+                border: 1px solid #f5c6cb;
+            }
+
+            /* ── Responsive ─────────────────────────────────────────── */
+            @media (max-width: 768px) {
+                .login-left  { display: none; }
+                .login-right { width: 100%; padding: 40px 28px; }
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <div class="login-wrapper">
+
+            <!-- Left: project overview -->
+            <div class="login-left">
+                <div class="app-logo">
+                    <img src="#{request.contextPath}/resources/imagenes/comunicador.png" alt="logo"/>
                 </div>
-            </div>
-<!--               <li><h:outputText class="head" value="#{bundle.head}"/></li>
-               <h:form class="form">
-             <i><br><h:outputText value="#{bundle.login}" style="font-weight:bold"/></br></i>
-            <br></br> 
-            <br> <h:outputLabel for="usuario" style="font-weight:bold" value="#{bundle.user}"/> </br>
-            <br><h:inputText id="usuario" required="true" value="#{backingUsuario.username}"/></br>
-            
-            <br><h:outputLabel for="password" style="font-weight:bold" value="#{bundle.password}"/></br> 
-            <br><h:inputSecret id="password"  required="true" value="#{backingUsuario.password}"/></br>
-            <br></br>
-            <br/>
-            <h:commandButton class="btn btn-primary" id="ingresar" value="#{bundle.ingresar}" action="#{backingUsuario.login()}"/>
-            <br/>
-            <br/>
-            <h:messages/> 
-              </h:form> -->
-              </ui:define>
-         </ui:composition>
-       </html>
 
+                <h1>Comunicador</h1>
+                <p class="tagline">
+                    Herramienta de comunicación aumentativa y alternativa diseñada para
+                    ayudar a personas con dificultades motrices a expresarse mediante
+                    imágenes e iconos interactivos.
+                </p>
+
+                <ul class="features">
+                    <li>
+                        <span class="icon">&#128203;</span>
+                        <span class="feat-text">
+                            <strong>Temáticas e imágenes</strong>
+                            Organizá el contenido en categorías visuales claras y personalizables.
+                        </span>
+                    </li>
+                    <li>
+                        <span class="icon">&#9654;</span>
+                        <span class="feat-text">
+                            <strong>Escaneo automático</strong>
+                            Navegación secuencial con pausa configurable, accesible con un solo pulsador.
+                        </span>
+                    </li>
+                    <li>
+                        <span class="icon">&#128264;</span>
+                        <span class="feat-text">
+                            <strong>Síntesis de voz</strong>
+                            Cada elemento es pronunciado en voz femenina en español al ser resaltado.
+                        </span>
+                    </li>
+                    <li>
+                        <span class="icon">&#9881;</span>
+                        <span class="feat-text">
+                            <strong>Panel de administración</strong>
+                            Gestioná temáticas y elementos interactivos desde una interfaz web.
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right: login form -->
+            <div class="login-right">
+                <h2>Iniciar sesión</h2>
+                <p class="login-sub">Ingresá tus credenciales para acceder al panel.</p>
+
+                <h:form>
+                    <div class="login-messages">
+                        <h:messages layout="list" styleClass="login-alert"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <h:inputText id="usuario" styleClass="form-control"
+                                     placeholder="nombre de usuario"
+                                     required="true"
+                                     value="#{backingUsuario.username}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <h:inputSecret id="password" styleClass="form-control"
+                                       placeholder="••••••••"
+                                       required="true"
+                                       value="#{backingUsuario.password}"/>
+                    </div>
+
+                    <h:commandButton styleClass="btn-login"
+                                     value="Ingresar"
+                                     action="#{backingUsuario.login()}"/>
+                </h:form>
+            </div>
+
+        </div>
+    </h:body>
+</html>

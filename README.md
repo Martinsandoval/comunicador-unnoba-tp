@@ -4,7 +4,8 @@ A Java EE web application that helps people with motor disabilities communicate 
 
 ## Demo (sound on 🗣️)
 
-https://github.com/user-attachments/assets/bb31e303-5983-4836-af99-19ac14298a6e
+https://github.com/user-attachments/assets/a0a26f3c-1da5-4d10-8291-9d9d7c721987
+
 
 
 ## Technology Stack
